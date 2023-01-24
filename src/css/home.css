@@ -1,0 +1,32 @@
+* {
+    scroll-behavior: smooth;
+}
+
+.section-active {
+}
+
+
+.section-paragraph {
+    color: black;
+    animation-duration: .65s;
+    animation-fill-mode: both;
+    visibility: hidden;
+}
+
+.section-active .section-paragraph {
+    color: red;
+    animation-name: fadeInUp;
+    visibility: visible;
+}
+
+@keyframes fadeInUp{
+  0% {
+    transform: translate3d(0,55%,0);
+    opacity:0;
+    transform:translate3d(0,55%,0)
+  } to {
+    transform: translateZ(0);
+    opacity:1;
+    transform:translateZ(0)
+  }
+}
