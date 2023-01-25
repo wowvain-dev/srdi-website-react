@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react'
+import { MutableRefObject, createContext, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import Layout from "./pages/layout";
 import About from "./pages/about";
@@ -9,7 +9,7 @@ import Services from "./pages/services";
 import Prices from "./pages/prices";
 import Gallery from "./pages/gallery";
 import { ConfigProvider } from 'antd';
-
+import {PathContext} from './helpers/context'
 import { NextUIProvider, createTheme } from '@nextui-org/react';
 
 const nextuiTheme = createTheme({
@@ -21,10 +21,30 @@ const nextuiTheme = createTheme({
   }
 });
 
+class PathManager {
+  private path: string = '';
+  
+  
+  public set setPath(v : string) {
+    this.path = v;
+  }
+
+  public get getPath() : string {
+    return this.path;
+  }
+  
+  
+  hrefPath() {
+    return location.href.slice(location.href.search('#')); 
+  }
+}
+
+
 export default function App() {
-  // const pathContext = createContext(location.pathname);
+  const [path, setPath] = useState<string>('#');
+  const sectionRefs = new Array<MutableRefObject<HTMLInputElement>>(6);
   return(
-     
+    <PathContext.Provider value={{ path, setPath }}>
      <NextUIProvider theme={nextuiTheme}>
      <ConfigProvider
       theme={{
@@ -37,17 +57,13 @@ export default function App() {
      >
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Layout/>}>
-            <Route index element={<Home />}/>
-            <Route path="despre_noi" element={<About />}/>
-            <Route path="servicii" element={<Services />}/>
-            <Route path="tarife" element={<Prices />} />
-            <Route path="galerie" element={<Gallery />} />
-            <Route path="contact" element={<Contact />} />
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home  />}/>
           </Route>
         </Routes>
       </BrowserRouter>
      </ConfigProvider> 
      </NextUIProvider>
+      </PathContext.Provider>
   );
 }
