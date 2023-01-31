@@ -68,13 +68,9 @@ function Layout() {
       <Content>
         <Outlet />
       </Content>
-      {/*<div style={{marginTop: -100}}>*/}
-      {/*<Outlet />*/}
-      {/*</div>*/}
       <Footer>
         <AppFooter />
       </Footer>
-
       </AntdLayout>
     );
   }

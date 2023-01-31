@@ -2,19 +2,32 @@ import {InView} from "react-intersection-observer";
 import {Button, Card, Typography} from "antd";
 import {gray} from "@ant-design/colors";
 import Wave from "react-wavify";
+import {useEffect, useRef, useState} from "react";
+import {motion, useInView} from "framer-motion";
 
 const { Text, Title, Paragraph } = Typography;
 
+
 export default function AppHero() {
+
+  const [buttonVisible, setButtonVisible] = useState(true);
+  const [buttonClass, setButtonClass] = useState('dive-btn');
+
+  const ref = useRef(null);
+  const isInView = useInView(ref, {amount: .6});
+
+  useEffect(() => {
+    console.log(isInView);
+  }, [isInView]);
+
   return(
-    <InView threshold={.6}>
-      {
-        ({inView, ref, entry}) => {
-          if (inView) {
-          }
-          return(<div style={{
-          }} className="backgroundImage bg-fixed" id="acasa" ref={ref}
-          >
+    // <InView threshold={.6}>
+    //   {
+        // ({inView, ref, entry}) => {
+
+          // console.log(buttonVisible);
+          // setButtonVisible(inView);
+          <div className="backgroundImage bg-fixed" id="acasa" ref={ref}>
             <div
               className="items-center align-center justify-center flex flex-col"
               style={{
@@ -24,7 +37,7 @@ export default function AppHero() {
             >
               <div className="flex-1"/>
               <Card
-                className="w-[95%] md:w-[60%] p-10"
+                className="w-[95%] md:w-[60%] p-10 hero-card"
                 bordered={true}
                 style={{
                   boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)"
@@ -97,21 +110,24 @@ export default function AppHero() {
                   }
                 }
               />
-              <a href="#despre_noi">
-                <Button
-                  style={{zIndex:100, color: "#fff"}}
-                  type="default" size="large"
-                  className="mb-10"
+                <motion.a href="#despre_noi"
+                  animate={{opacity: isInView ? 1 : 0}}
+                          style={{zIndex: 999}}
                 >
-                  SCUFUNDĂ-TE
-                </Button>
-
-              </a>
+                  {/*123*/}
+                  <Button
+                    className={`mb-10`}
+                    style={{zIndex:100, color: "#fff"}}
+                    type="default" size="large"
+                  >
+                    SCUFUNDĂ-TE
+                  </Button>
+                </motion.a>
             </div>
-          </div>);
-        }
-      }
-    </InView>
+          </div>
+    //     }
+    //   }
+    // </InView>
 
   );
 }

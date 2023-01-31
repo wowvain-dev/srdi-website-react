@@ -1,10 +1,19 @@
 * {
     scroll-behavior: smooth;
+    scroll-padding-block-start: 82px;
 }
 
 .section-active {
 }
 
+.section-inactive {
+}
+
+.dive-btn {
+    animation-duration: .65s;
+    animation-fill-mode: both;
+    visibility: hidden;
+}
 
 .section-paragraph {
     color: black;
@@ -19,14 +28,32 @@
     visibility: visible;
 }
 
+.section-active .dive-btn {
+    animation-name: fadeInUp;
+    visibility: visible;
+}
+
+.section-inactive .dive-btn {
+  animation-name: fadeOutDown;
+  visibility: visible;
+}
+
 @keyframes fadeInUp{
   0% {
     transform: translate3d(0,55%,0);
     opacity:0;
-    transform:translate3d(0,55%,0)
   } to {
     transform: translateZ(0);
     opacity:1;
-    transform:translateZ(0)
+  }
+}
+
+@keyframes fadeOutDown{
+  0% {
+    transform: translateZ(0);
+    opacity: 1;
+  } to {
+    transform: translate3d(0, 55%, 0);
+    opacity: 0;
   }
 }

@@ -1,0 +1,33 @@
+* {
+  scroll-behavior: smooth;
+  scroll-padding-block-start: 82px;
+}
+
+.contentHolder {
+  margin-top: 50px;
+}
+
+.contentHolder p {
+  font-size: 18px;
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+  color: #fefefe;
+}
+
+.columnsHolder p {
+  font-family: Montserrat, sans-serif;
+  color: #fefefe;
+  font-size: 26px;
+}
+
+.finishGradient {
+  background: linear-gradient(to bottom, #003f5b 10%, transparent);
+}
+
+.modal {
+  font-family: Montserrat, sans-serif;
+}
+
+.modal p {
+  font-family: Montserrat, sans-serif;
+}
