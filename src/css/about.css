@@ -31,3 +31,18 @@
 .modal p {
   font-family: Montserrat, sans-serif;
 }
+
+.qualification h1 {
+  font-family: 'Montserrat';
+  text-align: center;
+  color: #c8d6dc;
+  font-size: 26px;
+  font-weight: bold;
+}
+
+.qualification h3 {
+  font-family: 'Montserrat';
+  text-align: center;
+  color: #c8d6dc;
+  font-size: 24px;
+}

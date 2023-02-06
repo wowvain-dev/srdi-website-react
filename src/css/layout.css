@@ -1,0 +1,11 @@
+.title-holder {
+    text-align: center;
+    position: relative;
+    padding: 0 0 20px;
+    margin: 0 0 40px;
+}
+
+.title-holder h2 {
+    margin: 0;
+    font-size: 28px;
+}

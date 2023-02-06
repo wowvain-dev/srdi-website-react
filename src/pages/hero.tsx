@@ -3,7 +3,7 @@ import {Button, Card, Typography} from "antd";
 import {gray} from "@ant-design/colors";
 import Wave from "react-wavify";
 import {useEffect, useRef, useState} from "react";
-import {motion, useInView} from "framer-motion";
+import {AnimatePresence, motion, useInView} from "framer-motion";
 
 const { Text, Title, Paragraph } = Typography;
 
@@ -110,11 +110,14 @@ export default function AppHero() {
                   }
                 }
               />
+                <AnimatePresence>
+                  { isInView &&
                 <motion.a href="#despre_noi"
-                  animate={{opacity: isInView ? 1 : 0}}
-                  // whileInView={{opacity: 1}}
-                  viewport={{amount: .6}}
-                  style={{zIndex: 999, opacity: 0}}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  viewport={{ amount: .6 }}
+                  style={{ zIndex: 999 }}
                 >
                   {/*123*/}
                   <Button
@@ -125,6 +128,9 @@ export default function AppHero() {
                     SCUFUNDĂ-TE
                   </Button>
                 </motion.a>
+
+                  }
+                </AnimatePresence>
             </div>
           </div>
     //     }

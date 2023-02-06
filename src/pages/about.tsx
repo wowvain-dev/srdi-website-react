@@ -1,13 +1,19 @@
 import '../App.css';
 import '../css/about.css';
+import '../css/layout.css';
 import {LayoutGroup, motion, useInView} from "framer-motion";
 import React, {useRef, useState} from "react";
 import {Button, Modal, Row} from 'antd';
 import {Card, Divider, Spacer} from '@nextui-org/react';
 
-import { CiMedal } from 'react-icons/ci';
+import { CiMedal, CiTrophy } from 'react-icons/ci';
 import { HiOutlineHeart } from 'react-icons/hi';
 import {
+	BsPeople,
+	BsWater,
+  FaSwimmer,
+  GrGroup,
+  IoHappyOutline,
   IoIosHeartEmpty,
   TbFileCertificate
 } from "react-icons/all";
@@ -22,17 +28,66 @@ function About() {
   const description3 = useRef(null);
   const content = useRef(null);
 
-  const headerView = useInView(header, {amount: 1});
-  const description1View = useInView(description1, {amount: 1});
-  const description2View = useInView(description2, {amount: 1});
-  const description3View = useInView(description3, {amount: 1});
-  const contentView = useInView(content, {amount: .8});
+	const characterAnimation = {
+		initial: {
+			opacity: 0,
+			y: `1em`
+		}, 
+		whileInView: {
+			opacity: 1,
+			y: `0em`,
+			transition: {
+				delay: 1.5,
+				duration: .5,
+				ease: [.2, .65, .3, .9]
+			}
+		}
+	};
+
+	const qualifIconAnimation = {
+		initial: {
+			opacity: 0,
+			y: `-1em`
+		}, 
+		whileInView: {
+			opacity: 1,
+			y: `0em`,
+			transition: {
+				delay: .25,
+				duration: .5,
+				ease: [.2, .65, .3, .9]
+			}
+		}
+	};
+
+	const qualifTextAnimation = {
+		initial: {
+			opacity: 0,
+			x: `-1em`
+		}, 
+		whileInView: {
+			opacity: 1,
+			x: `0em`,
+			transition: {
+				delay: 1,
+				duration: .5,
+				ease: [.2, .65, .3, .9]
+			}
+		}
+	};
 
 
   const textTransition = {
     duration: .75,
+		delay: .5,
     default: { ease: "easeIn" }
   };
+
+	const headerTransition = {
+		duration: .5,
+		delay: .25,
+		default: { ease: "easeIn" }
+	};
 
   return(
     <div id="despre_noi">
@@ -41,20 +96,32 @@ function About() {
               <div className="container-fluid">
 
                 <motion.div ref={header}
-                       transition={{delay: .25, ...textTransition}}
+                       transition={{...headerTransition}}
                      // animate={{opacity: headerView ? 1 : 0}}
                      whileInView={{opacity: 1}}
                      viewport={{once: true}}
                             style={{opacity: 0}}
-                     className="titleHolder">
+                     className="title-holder">
                   <h2
                   >
                     Despre Noi</h2>
+                <center>
+                  <motion.div
+                    transition={{delay: .5, type: "spring", stiffness: 400, damping: 20, duration: .5}}
+                                    // stiffness: 400, damping: 10, duration: .4
+                    whileInView={{width: '40%'}}
+                    initial={{width: '0%'}}
+                    style={{width: '0%'}}
+                    // viewport={{once: true}}
+                  >
+                    <Divider css={{background: '#fefefe', height: 2}} className="mt-6"/>
+                  </motion.div>
+                </center>
                 </motion.div>
 
                 <div className="contentHolder" ref={content}>
                   <motion.p
-                    transition={{delay: .75, ...textTransition}}
+                    transition={{...textTransition}}
                     whileInView={{opacity: 1}}
                     viewport={{once: true}}
                     style={{opacity: 0}}
@@ -62,7 +129,7 @@ function About() {
                     Suntem <b>Şcoala Română de Înot</b> şi ne lăsăm conduşi de pasiunea pentru înot, de dorința de a face totul cât mai bine astfel încât, la finalul fiecărui antrenament, cursanții noștri să fie fericiți că ne-au întâlnit.
                   </motion.p>
                   <motion.p
-                    transition={{delay: 1, ...textTransition}}
+                    transition={{...textTransition}}
                     whileInView={{opacity: 1}}
                     viewport={{once: true}}
                     style={{opacity: 0}}
@@ -70,7 +137,7 @@ function About() {
                     Indiferent dacă sunteți la primul contact cu bazinul de înot, și poate vă este teamă de apă, dacă înotați pentru sănătate, dacă doriți să vă perfecționați tehnica de înot sau să vă pregătiți pentru competiții sportive, la <b>Școala Română de Înot</b> veți găsi cursurile de înot potrivite pentru dumneavoastră sau copiii dumneavoastră.
                   </motion.p>
                   <motion.p
-                    transition={{delay: 1.25, ...textTransition}}
+                    transition={{...textTransition}}
                     whileInView={{opacity: 1}}
                     viewport={{once: true}}
                     style={{opacity: 0}}
@@ -83,7 +150,7 @@ function About() {
 
                 <center>
                   <motion.div
-                    transition={{delay: 1.4, duration: .5, ease: 'easeInOut'}}
+                    transition={{delay: .5, duration: .5, ease: 'easeInOut'}}
                     whileInView={{width: '100%'}}
                     style={{width: '0%'}}
                     viewport={{once: true}}
@@ -97,24 +164,22 @@ function About() {
                     <motion.p style={{fontSize: '18px', marginBottom: '10px', opacity: 0}}
                       whileInView={{opacity: 1}}
                       viewport={{once: true}}
-                              transition={{delay: 1.5, duration: .5, ease: 'easeInOut'}}
+                              transition={textTransition}
                     >
                       Antrenamentele sunt concepute de <b>Edward Vuculescu</b>, antrenor coordonator şi preşedinte al Şcolii Române de Înot.
 
                     </motion.p>
                   </center>
                   <Row className="flex flex-col md:flex-row items-center justify-evenly mt-10">
-                    <LayoutGroup>
+                    {/* <LayoutGroup> */}
                       <motion.div layoutId="1" onClick={() => setSelectedId("1")}
-                                  layout={true}
+																	initial={{x: '-2em', opacity: 0}}
                                   whileInView={{
-                                    scale: [0, 1.1, 1],
-                                    opacity: [0, 1, 1]
+																		x: `0em`,
+																		opacity: 1	
                                   }}
                                   viewport={{once: true}}
-                                  transition={{delay: 1.5, type: "spring",
-                                    stiffness: 400, damping: 10, duration: .4
-                                  }}
+                                  transition={{delay: .5, duration: .4, type: "easeInOut"}}
                                   className="flex flex-col w-[30%] justify-center items-center pl-10 pr-10"
                       >
                         <motion.div
@@ -159,18 +224,14 @@ function About() {
                         </motion.div>
                       </motion.div>
                       <motion.div layoutId="2" onClick={() => setSelectedId("2")}
-                                  layout={true}
+																	initial={{x: '-2em', opacity: 0}}
                                   whileInView={{
-                                    scale: [0, 1.1, 1],
-                                    opacity: [0, 1, 1]
+																		x: `0em`,
+																		opacity: 1	
                                   }}
                                   viewport={{once: true}}
-                                  transition={{delay: 1.625, type: "spring",
-                                    stiffness: 400, damping: 10, duration: .4
-                                  }}
-                                  className="flex flex-col w-[30%] justify-center items-center
-                        pl-10 pr-10
-                      "
+                                  transition={{delay: .75, duration: .4, type: "easeInOut"}}
+                                  className="flex flex-col w-[30%] justify-center items-center pl-10 pr-10"
                       >
                         <motion.div
                           className="mb-5 md:mb-0"
@@ -211,15 +272,14 @@ function About() {
                         </motion.div>
                       </motion.div>
                       <motion.div layoutId="3" onClick={() => setSelectedId("3")}
-                                  layout={true}
+																	initial={{x: '-2em', opacity: 0}}
                                   whileInView={{
-                                    scale: [0, 1.1, 1],
-                                    opacity: 1
+																		x: `0em`,
+																		opacity: 1	
                                   }}
-                                  style={{scale: 1}}
                                   viewport={{once: true}}
-                                  transition={{delay: 1.75, type: "spring",
-                                    stiffness: 400, damping: 10, duration: .4
+                                  transition={{delay: 1, duration: .4, type: "easeInOut",
+                                    // stiffness: 100, damping: 10, duration: .4
                                   }}
                                   className="flex flex-col w-[30%] justify-center items-center
                         pl-10 pr-10
@@ -267,7 +327,6 @@ function About() {
                           </Card>
                         </motion.div>
                       </motion.div>
-                    </LayoutGroup>
                   </Row>
                 </div>
 
@@ -276,7 +335,7 @@ function About() {
                     style={{opacity: 0}}
                     whileInView={{opacity: 1}}
                     viewport={{once: true}}
-                    transition={{delay: 2, ...textTransition}}
+                    transition={{...textTransition}}
                   >
                     În cadrul cursurilor, <b>Edward</b> pune în aplicare atât cunoștințele acumulate, cât și experiența de sportiv de performanță, și reușește să transmită pasiunea sa pentru înot și cursanților săi, copii sau adulți. Scopul său ca antrenor este să-și provoace cursanții să-și depășească limitele.
                   </motion.p>
@@ -315,8 +374,111 @@ function About() {
               </div>
             </div>
       {/*<div className="w-[100vw] h-[20vh] finishGradient" />*/}
-                <div className="w-100vw h-48 bg-[#005f7b]" style={{minHeight: '12rem'}}>
-                  
+                <div className="flex flex-col 
+								justify-between items-center pt-5 pb-5
+								w-100vw bg-[#005f7b]" style={{minHeight: '12rem'}}>
+                  <div 
+									className="
+									gap-5
+									grid grid-cols-1 
+									sm:grid-cols-2 
+									md:grid-rows-2 
+									lg:grid-cols-4 lg:grid-rows-1
+									max-w-7xl
+									// auto-cols-max
+									gap-x-30
+									m-auto
+									">
+                    <motion.div className="flex flex-col justify-content items-center qualification">
+												<motion.div
+													variants={qualifIconAnimation}
+													whileInView="whileInView"
+													initial="initial"
+													viewport={{once: true}}
+												>
+													<BsWater size={60} color={'#c8d6dc'}/>
+												</motion.div>
+												
+												<motion.h1
+													variants={qualifTextAnimation}
+													whileInView="whileInView"
+													initial="initial"
+													viewport={{once: true}}
+												>12</motion.h1>
+												<motion.h3
+													variants={characterAnimation}
+													whileInView="whileInView"
+													initial="initial"
+													viewport={{once: true}}
+												>Ani de Experienţă</motion.h3>
+                    </motion.div>
+                    <motion.div className="flex flex-col justify-content items-center qualification">
+											  <motion.div
+													variants={qualifIconAnimation}
+													whileInView="whileInView"
+													initial="initial"
+													viewport={{once: true}}
+												>
+													<IoHappyOutline size={60} color={'#c8d6dc'}/>
+												</motion.div>
+												<motion.h1
+													variants={qualifTextAnimation}
+													whileInView="whileInView"
+													initial="initial"
+													viewport={{once: true}}
+												>7 000</motion.h1>
+												<motion.h3
+													variants={characterAnimation}
+													whileInView="whileInView"
+													initial="initial"
+													viewport={{once: true}}
+												>Cursanţi Fericiţi</motion.h3>
+                    </motion.div>
+                    <motion.div className="flex flex-col justify-content items-center qualification">
+											  <motion.div
+													variants={qualifIconAnimation}
+													whileInView="whileInView"
+													initial="initial"
+													viewport={{once: true}}
+												>
+											  	<CiTrophy size={60} color={'#c8d6dc'} strokeWidth={.8}/>
+												</motion.div>
+												<motion.h1
+													variants={qualifTextAnimation}
+													whileInView="whileInView"
+													initial="initial"
+													viewport={{once: true}}
+												>30</motion.h1>
+												<motion.h3
+													variants={characterAnimation}
+													whileInView="whileInView"
+													initial="initial"
+													viewport={{once: true}}
+												>Premii la Concursuri</motion.h3>
+                    </motion.div>
+                    <motion.div className="flex flex-col justify-content items-center qualification">
+											  <motion.div
+													variants={qualifIconAnimation}
+													whileInView="whileInView"
+													initial="initial"
+													viewport={{once: true}}
+												>
+													<BsPeople size={60} color={'#c8d6dc'}/>
+												</motion.div>
+												<motion.h1
+													variants={qualifTextAnimation}
+													whileInView="whileInView"
+													initial="initial"
+													viewport={{once: true}}
+												>48</motion.h1>
+												<motion.h3
+													variants={characterAnimation}
+													whileInView="whileInView"
+													initial="initial"
+													viewport={{once: true}}
+												>Cantonamente</motion.h3>
+                    </motion.div>
+                  </div>
                 </div>
     </div>
 
