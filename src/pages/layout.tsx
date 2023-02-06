@@ -59,7 +59,6 @@ function Layout() {
      }}
   );
 
-    console.log(dimensions.width)
     return(
       <AntdLayout className="mainLayout">
       <Header>

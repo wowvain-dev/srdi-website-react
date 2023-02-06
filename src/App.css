@@ -294,20 +294,7 @@ body {
   .aboutBlock .content {
     text-align: center;
   }
-  
-  /* 
-  how it works
-  ------------
-  */
-  /*.worksBlock {*/
-  /*  background: url('assets/images/bg-works.jpg') no-repeat;*/
-  /*  background-position: 50% 0;*/
-  /*  background-size: cover;*/
-  /*  background-attachment: fixed;*/
-  /*  color: #fff;*/
-  /*  position: relative;*/
-  /*}*/
-  
+
   .worksBlock:before {
     content: '';
     background: rgba(0, 0, 0, 0.5);

@@ -17,7 +17,7 @@ export default function AppHero() {
   const isInView = useInView(ref, {amount: .6});
 
   useEffect(() => {
-    console.log(isInView);
+    // console.log(isInView);
   }, [isInView]);
 
   return(
@@ -112,7 +112,9 @@ export default function AppHero() {
               />
                 <motion.a href="#despre_noi"
                   animate={{opacity: isInView ? 1 : 0}}
-                          style={{zIndex: 999}}
+                  // whileInView={{opacity: 1}}
+                  viewport={{amount: .6}}
+                  style={{zIndex: 999, opacity: 0}}
                 >
                   {/*123*/}
                   <Button
