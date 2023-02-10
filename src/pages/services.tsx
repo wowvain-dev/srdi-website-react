@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
 import "../App.css";
 import "../css/layout.css";
-import { Divider } from "@nextui-org/react";
+import { Divider, Card, Col, Row, Button, Text } from "@nextui-org/react";
 import { Divider as ADivider } from "antd";
+import ChildrenSwim from "../assets/children-swim.jpg";
 
 function Services() {
   const headerVariants = {
@@ -86,7 +87,72 @@ function Services() {
               Metode moderne
             </p>
           </div>
-          <div className="contentHolder"></div>
+          <div className="contentHolder">
+            <div className="grid">
+              <Card css={{ w: "100%", h: "400px" }}>
+                <Card.Header
+                  css={{
+                    position: "absolute",
+                    zIndex: 1,
+                  }}
+                >
+                  <Col>
+                    <h3
+                      className="uppercase"
+                      style={{
+                        color: "#fefefe",
+                        fontSize: "28px",
+                        strokeColor: "000",
+                        strokeWidth: "2",
+                      }}
+                    >
+                      Cursuri Inot Copii
+                    </h3>
+                    <p></p>
+                  </Col>
+                </Card.Header>
+                <Card.Body css={{ p: 0 }}>
+                  <Card.Image
+                    src={ChildrenSwim}
+                    objectFit="cover"
+                    width="100%"
+                    height="100%"
+                  ></Card.Image>
+                </Card.Body>
+                <Card.Footer
+                  isBlurred
+                  css={{
+                    position: "absolute",
+                    bgBlur: "#0f111466",
+                    borderTop: "$borderWeights$light solid $gray800",
+                    bottom: 0,
+                    zIndex: 1,
+                  }}
+                >
+                  <Row>
+                    <Col>
+                      <p
+                        className="text-md sm:text-lg md:text-2xl"
+                        style={{
+                          color: "#d1d1d1",
+                          textAlign: "left",
+                        }}
+                      >
+                        Ajutam copiii sa invete despre frumusetea inotului!
+                      </p>
+                    </Col>
+                    <div className="flex flex-col h-full">
+                      <div className="flex-1" />
+                      <Button color="gradient" auto>
+                        Afla mai multe
+                      </Button>
+                      <div className="flex-1" />
+                    </div>
+                  </Row>
+                </Card.Footer>
+              </Card>
+            </div>
+          </div>
         </div>
       </div>
     </div>
