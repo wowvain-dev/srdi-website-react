@@ -1,122 +1,14 @@
 import "../App.css";
 import "../css/layout.css";
 import "../css/flashcards.css";
+import "../css/prices.css";
 import { InView } from "react-intersection-observer";
 import { motion } from "framer-motion";
 import { Divider } from "@nextui-org/react";
 import { useRef, useEffect, useState } from "react";
+import {Card, Col, Row } from "antd";
+import {HiOutlineUserGroup, HiOutlineUsers, HiUser, HiUserGroup, HiUsers} from "react-icons/hi";
 
-const cards = [1, 2, 3];
-
-const cardVariants = {
-  selected: {
-    rotateY: 180,
-    scale: 1.1,
-    transition: { duration: 0.35 },
-    zIndex: 10,
-    boxShadow: `rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px`,
-  },
-  notSelected: (i) => ({
-    rotateY: i * 15,
-    scale: 1 - Math.abs(i * 0.15),
-    x: i ? i * 50 : 0,
-    opacity: 1 - Math.abs(i * 0.3),
-    zIndex: 10 - Math.abs(i),
-    boxShadow: `rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px`,
-    transition: { duration: 0.35 },
-  }),
-};
-
-const Flashcards = () => {
-  const [selectedCard, setSelectedCard] = useState(null);
-
-  const [{ startX, startScrollLeft, isDragging }, setDragStart] = useState({
-    startX: undefined,
-    startScrollLeft: undefined,
-    isDragging: false,
-  });
-
-  const containerRef = useRef();
-
-  const cardRefs = useRef(new Array());
-
-  useEffect(() => {
-    const { scrollWidth, clientWidth } = containerRef.current;
-
-    const halfScroll = (scrollWidth - clientWidth) / 2;
-
-    containerRef.current.scrollLeft = halfScroll;
-  }, [containerRef.current]);
-
-  const handleMouseDown = (e) => {
-    setDragStart({
-      startX: e.pageX - containerRef.current.offsetLeft,
-
-      startScrollLeft: containerRef.current.scrollLeft,
-
-      isDragging: true,
-    });
-  };
-
-  const handleMouseMove = (e) => {
-    if (!isDragging || selectedCard) return;
-
-    const x = e.pageX - containerRef.current.offsetLeft;
-
-    const walk = x - startX;
-
-    containerRef.current.scrollLeft = startScrollLeft - walk;
-  };
-
-  const selectCard = (card) => {
-    setSelectedCard(selectedCard ? null : card);
-
-    if (card && !selectedCard) {
-      cardRefs.current[card - 1].scrollIntoView({
-        behavior: "smooth",
-
-        block: "nearest",
-
-        inline: "center",
-      });
-    }
-  };
-
-  const handleCardMouseUp = (e, card) => {
-    if (isDragging) {
-      const x = e.pageX - containerRef.current.offsetLeft;
-
-      const walk = x - startX;
-
-      if (Math.abs(walk) < 5) selectCard(card);
-    } else selectCard(card);
-  };
-
-  return (
-    <div
-      className="flashcards"
-      onMouseDown={handleMouseDown}
-      onMouseUp={() => setDragStart((prev) => ({ ...prev, isDragging: false }))}
-      onMouseMove={handleMouseMove}
-    >
-      <div className="flashcards__container" ref={containerRef}>
-        {cards.map((card, i) => (
-          <motion.div
-            className="card"
-            key={card}
-            ref={(el) => cardRefs.current.push(el)}
-            onMouseUp={(e) => handleCardMouseUp(e, card)}
-            variants={cardVariants}
-            animate={selectedCard === card ? "selected" : "notSelected"}
-            custom={selectedCard ? selectedCard - card : 0}
-          >
-            <div style={{ backfaceVisibility: "hidden" }}>test</div>
-          </motion.div>
-        ))}
-      </div>
-    </div>
-  );
-};
 
 function Prices() {
   const headerVariants = {
@@ -138,7 +30,7 @@ function Prices() {
       id="tarife"
       className="bg-[#efefef] w-[100vw] min-h-[100vh] mb-20 pt-10"
     >
-      <div className="containerFluid">
+      <div className="container-fluid">
         <motion.div
           variants={headerVariants}
           initial="initial"
@@ -170,7 +62,82 @@ function Prices() {
           </center>
         </motion.div>
         <div>
-          <Flashcards />
+          <div className="grid grid-cols-3 gap-16 mr-auto ml-auto">
+            <div className="price-card">
+              <div className="box">
+                <div className="content">
+                  <h2><HiUser /></h2>
+                  <h3>Lecţii de Înot cu Antrenor Personal</h3>
+                  <h4><b>1 cursant</b></h4>
+                  <Row>
+                    <Col span={6}>
+                      <p><b>1</b></p>
+                    </Col>
+                    <Col span={18}>
+                      <p>şedinţă înot: 160.00 LEI</p>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col span={6}>
+                      <p><b>4</b></p>
+                    </Col>
+                    <Col span={18}>
+                      <p>şedinţe înot: 520.00 LEI</p>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col span={6}>
+                      <p><b>6</b></p>
+                    </Col>
+                    <Col span={18}>
+                      <p>şedinţe înot: 750.00 LEI</p>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col span={6}>
+                      <p><b>8</b></p>
+                    </Col>
+                    <Col span={18}>
+                      <p>şedinţe înot: 920.00 LEI</p>
+                    </Col>
+                  </Row>
+                  <a>Află mai multe</a>
+                </div>
+
+              </div>
+
+            </div>
+            <div className="price-card">
+              <div className="box">
+                <div className="content">
+                  <h2><HiUsers /></h2>
+                  <h3>Lecţii de Înot cu Antrenor Personal</h3>
+                  <h4><b>2 cursanţi</b></h4>
+                  <p>
+                    Lorem Ipsum deez nuts
+                  </p>
+                  <a>Află mai multe</a>
+                </div>
+
+              </div>
+
+            </div>
+            <div className="price-card">
+              <div className="box">
+                <div className="content">
+                  <h2><HiUserGroup /></h2>
+                  <h3>Lecţii de Înot în Grupe</h3>
+                  <h4><b>copii & adulţi</b></h4>
+                  <p>
+                    Lorem Ipsum deez nuts
+                  </p>
+                  <a>Află mai multe</a>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
         </div>
       </div>
     </div>
