@@ -62,19 +62,21 @@ function Prices() {
           </center>
         </motion.div>
         <div>
-          <div className="grid grid-cols-3 gap-16 mr-auto ml-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-x-16 gap-y-4 mr-auto ml-auto">
             <div className="price-card">
               <div className="box">
                 <div className="content">
-                  <h2><HiUser /></h2>
-                  <h3>Lecţii de Înot cu Antrenor Personal</h3>
-                  <h4><b>1 cursant</b></h4>
+                    <h2><HiUser /></h2>
+                  <Col className="mt-10">
+                    <h3>Lecţii de Înot cu Antrenor Personal</h3>
+                    <h4><b>1 cursant</b></h4>
+                  </Col>
                   <Row>
                     <Col span={6}>
                       <p><b>1</b></p>
                     </Col>
                     <Col span={18}>
-                      <p>şedinţă înot: 160.00 LEI</p>
+                      <p>şedinţă înot: <span>160.00 LEI</span></p>
                     </Col>
                   </Row>
                   <Row>
@@ -82,7 +84,7 @@ function Prices() {
                       <p><b>4</b></p>
                     </Col>
                     <Col span={18}>
-                      <p>şedinţe înot: 520.00 LEI</p>
+                      <p>şedinţe înot: <span>520.00 LEI</span></p>
                     </Col>
                   </Row>
                   <Row>
@@ -90,7 +92,7 @@ function Prices() {
                       <p><b>6</b></p>
                     </Col>
                     <Col span={18}>
-                      <p>şedinţe înot: 750.00 LEI</p>
+                      <p>şedinţe înot: <span>750.00 LEI</span></p>
                     </Col>
                   </Row>
                   <Row>
@@ -98,7 +100,7 @@ function Prices() {
                       <p><b>8</b></p>
                     </Col>
                     <Col span={18}>
-                      <p>şedinţe înot: 920.00 LEI</p>
+                      <p>şedinţe înot: <span>920.00 LEI</span></p>
                     </Col>
                   </Row>
                   <a>Află mai multe</a>
@@ -111,11 +113,26 @@ function Prices() {
               <div className="box">
                 <div className="content">
                   <h2><HiUsers /></h2>
-                  <h3>Lecţii de Înot cu Antrenor Personal</h3>
-                  <h4><b>2 cursanţi</b></h4>
-                  <p>
-                    Lorem Ipsum deez nuts
-                  </p>
+                  <Col className="mt-10">
+                    <h3>Lecţii de Înot cu Antrenor Personal</h3>
+                    <h4><b>2 cursanţi</b></h4>
+                  </Col>
+                  <Row>
+                    <Col span={6}><p><b>1</b></p></Col>
+                    <Col span={18}><p>şedinţă înot: <span>272.00 LEI</span></p></Col>
+                  </Row>
+                  <Row>
+                    <Col span={6}><p><b>4</b></p></Col>
+                    <Col span={18}><p>şedinţe înot: <span>884.00 LEI</span></p></Col>
+                  </Row>
+                  <Row>
+                    <Col span={6}><p><b>6</b></p></Col>
+                    <Col span={18}><p>şedinţe înot: <span>1 275.00 LEI</span></p></Col>
+                  </Row>
+                  <Row>
+                    <Col span={6}><p><b>8</b></p></Col>
+                    <Col span={18}><p>şedinţe înot: <span>1 564.00 LEI</span></p></Col>
+                  </Row>
                   <a>Află mai multe</a>
                 </div>
 
@@ -126,11 +143,27 @@ function Prices() {
               <div className="box">
                 <div className="content">
                   <h2><HiUserGroup /></h2>
-                  <h3>Lecţii de Înot în Grupe</h3>
-                  <h4><b>copii & adulţi</b></h4>
-                  <p>
-                    Lorem Ipsum deez nuts
-                  </p>
+                  <Col className="mt-10">
+                    <h3>Lecţii de Înot în Grupe</h3>
+                    <h4><b>copii & adulţi</b></h4>
+                  </Col>
+                  <Row>
+                    <Col span={6}><p><b>1</b></p></Col>
+                    <Col span={18}><p>şedinţă înot: <span>272.00 LEI</span></p></Col>
+                  </Row>
+                  <Row>
+                    <Col span={6}><p><b>4</b></p></Col>
+                    <Col span={18}><p>şedinţe înot: <span>884.00 LEI</span></p></Col>
+                  </Row>
+                  <Row>
+                    <Col span={6}><p><b>6</b></p></Col>
+                    <Col span={18}><p>şedinţe înot: <span>1 275.00 LEI</span></p></Col>
+                  </Row>
+                  <Row>
+                    <Col span={6}><p><b>8</b></p></Col>
+                    <Col span={18}><p>şedinţe înot: <span>1 564.00 LEI</span></p></Col>
+                  </Row>
+
                   <a>Află mai multe</a>
                 </div>
 

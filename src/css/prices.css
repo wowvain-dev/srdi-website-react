@@ -4,9 +4,10 @@
   position: relative;
   min-width: 350px;
   height: 600px;
-  box-shadow: inset 5px 5px 5px rgba(0, 0, 0, 0.2),
+  box-shadow: inset 5px 5px 5px rgba(255, 255, 255, 0.2),
   inset -5px -5px 15px rgba(255, 255, 255, 0.1),
-  5px 5px 15px rgba(0, 0, 0, 0.3), -5px -5px 15px rgba(255, 255, 255, 0.1);
+  5px 5px 15px rgba(0, 0, 0, 0.3),
+  -5px -5px 15px rgba(255, 255, 255, 0.1);
   border-radius: 15px;
   margin: 30px;
   transition: 0.5s;
@@ -34,13 +35,17 @@
   left: 20px;
   right: 20px;
   bottom: 20px;
-  background: #2a2b2f;
+  background: #ececec;
   border-radius: 15px;
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
   transition: 0.5s;
+  box-shadow: inset 5px 5px 5px rgba(255, 255, 255, 0.2),
+  inset -5px -5px 15px rgba(255, 255, 255, 0.1),
+  5px 5px 15px rgba(0, 0, 0, 0.3),
+  -5px -5px 15px rgba(255, 255, 255, 0.1);
 }
 
 .price-card .box:hover {
@@ -54,7 +59,7 @@
   left: 0;
   width: 50%;
   height: 100%;
-  background: rgba(255, 255, 255, 0.03);
+  background: #dedede;
 }
 
 .price-card .box .content {
@@ -67,21 +72,21 @@
   top: -10px;
   right: 30px;
   font-size: 8rem;
-  color: rgba(255, 255, 255, 0.1);
+  /*color: rgba(255, 255, 255, 0.1);*/
+  color: #ccc;
 }
 
 .price-card .box .content h3 {
   font-size: 1.5rem;
-  color: #fff;
+  color: #2a2b2a;
   z-index: 1;
-  transition: 0.5s;
   margin-bottom: 15px;
   font-family: Poppins, sans-serif;
 }
 
 .price-card .box .content h4 {
   font-size: 1.2rem;
-  color: #fff;
+  color: #4a4b4a;
   z-index: 1;
   transition: 0.5s;
   margin-bottom: 15px;
@@ -89,21 +94,29 @@
 }
 
 .price-card .box .content p {
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: 300;
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(0, 0, 0, 0.9);
   z-index: 1;
   transition: 0.5s;
   font-family: Poppins, sans-serif;
 }
 
 .price-card .box .content p b {
-  font-size: 1rem;
-  font-weight: 300;
-  color: rgba(255, 255, 100, 0.9);
+  font-size: 1.3rem;
+  color: #56aff6;
   z-index: 1;
   transition: 0.5s;
   font-family: Poppins, sans-serif;
+  font-weight: 700;
+}
+
+.price-card .box .content p span {
+  font-size: 1.2rem;
+  z-index: 1;
+  transition: 0.5s;
+  font-family: Poppins, sans-serif;
+  font-weight: 700;
 }
 
 .price-card .box .content a {
