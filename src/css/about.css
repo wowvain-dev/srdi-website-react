@@ -33,7 +33,7 @@
 }
 
 .qualification h1 {
-  font-family: "Montserrat";
+  font-family: "Montserrat", sans-serif;
   text-align: center;
   color: #c8d6dc;
   font-size: 24px;
@@ -41,8 +41,12 @@
 }
 
 .qualification h3 {
-  font-family: "Montserrat";
+  font-family: "Montserrat", sans-serif;
   text-align: center;
   color: #c8d6dc;
   font-size: 20px;
+}
+
+.ant-modal-title {
+  font-size: 40px;
 }

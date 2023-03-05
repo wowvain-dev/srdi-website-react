@@ -3,7 +3,7 @@
 .price-card {
   position: relative;
   min-width: 350px;
-  height: 600px;
+  height: 650px;
   box-shadow: inset 5px 5px 5px rgba(255, 255, 255, 0.2),
   inset -5px -5px 15px rgba(255, 255, 255, 0.1),
   5px 5px 15px rgba(0, 0, 0, 0.3),
@@ -93,6 +93,16 @@
   font-family: Poppins, sans-serif;
 }
 
+.price-card .box .content h4 i {
+  font-size: 1.2rem;
+  color: #6a6b6a;
+  z-index: 1;
+  transition: 0.5s;
+  margin-bottom: 15px;
+  font-family: Poppins, sans-serif;
+  font-style: normal;
+}
+
 .price-card .box .content p {
   font-size: 1.1rem;
   font-weight: 300;
@@ -102,9 +112,27 @@
   font-family: Poppins, sans-serif;
 }
 
-.price-card .box .content p b {
+.price-card:nth-child(1) .box .content p b {
   font-size: 1.3rem;
   color: #56aff6;
+  z-index: 1;
+  transition: 0.5s;
+  font-family: Poppins, sans-serif;
+  font-weight: 700;
+}
+
+.price-card:nth-child(2) .box .content p b {
+  font-size: 1.3rem;
+  color: #e91e63;
+  z-index: 1;
+  transition: 0.5s;
+  font-family: Poppins, sans-serif;
+  font-weight: 700;
+}
+
+.price-card:nth-child(3) .box .content p b {
+  font-size: 1.3rem;
+  color: #23c186;
   z-index: 1;
   transition: 0.5s;
   font-family: Poppins, sans-serif;
