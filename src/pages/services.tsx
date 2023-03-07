@@ -1,8 +1,8 @@
-import { motion } from "framer-motion";
+import {motion} from "framer-motion";
 import "../App.css";
 import "../css/layout.css";
-import { Divider, Card, Col, Row, Button, Text } from "@nextui-org/react";
-import { Divider as ADivider } from "antd";
+import {Divider, Card, Col, Row, Button, Text} from "@nextui-org/react";
+import {Divider as ADivider} from "antd";
 import ChildrenSwim from "../assets/children-swim.jpg";
 import AdultSwim from "../assets/adult-swim.jpg";
 import BabySwim from "../assets/baby-swim.jpg";
@@ -14,788 +14,798 @@ import {useEffect, useRef, useState} from "react";
 const cards = [1, 2, 3];
 
 const cardVariants = {
-  selected: {
-    rotateY: 180,
-    scale: 1.1,
-    transition: { duration: 0.35 },
-    zIndex: 10,
-    boxShadow: `rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px`,
-  },
-  notSelected: (i) => ({
-    rotateY: i * 15,
-    scale: 1 - Math.abs(i * 0.15),
-    x: i ? i * 50 : 0,
-    opacity: 1 - Math.abs(i * 0.3),
-    zIndex: 10 - Math.abs(i),
-    boxShadow: `rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px`,
-    transition: { duration: 0.35 },
-  }),
+    selected: {
+        rotateY: 180,
+        scale: 1.1,
+        transition: {duration: 0.35},
+        zIndex: 10,
+        boxShadow: `rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px`,
+    },
+    notSelected: (i) => ({
+        rotateY: i * 15,
+        scale: 1 - Math.abs(i * 0.15),
+        x: i ? i * 50 : 0,
+        opacity: 1 - Math.abs(i * 0.3),
+        zIndex: 10 - Math.abs(i),
+        boxShadow: `rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px`,
+        transition: {duration: 0.35},
+    }),
 };
 
 const Flashcards = () => {
-  const [selectedCard, setSelectedCard] = useState(null);
+    const [selectedCard, setSelectedCard] = useState(null);
 
-  const [{ startX, startScrollLeft, isDragging }, setDragStart] = useState({
-    startX: undefined,
-    startScrollLeft: undefined,
-    isDragging: false,
-  });
-
-  const containerRef = useRef();
-
-  const cardRefs = useRef([]);
-
-  useEffect(() => {
-    const { scrollWidth, clientWidth } = containerRef.current;
-
-    const halfScroll = (scrollWidth - clientWidth) / 2;
-
-    containerRef.current.scrollLeft = halfScroll;
-  }, [containerRef.current]);
-
-  const handleMouseDown = (e) => {
-    setDragStart({
-      startX: e.pageX - containerRef.current.offsetLeft,
-
-      startScrollLeft: containerRef.current.scrollLeft,
-
-      isDragging: true,
+    const [{startX, startScrollLeft, isDragging}, setDragStart] = useState({
+        startX: undefined,
+        startScrollLeft: undefined,
+        isDragging: false,
     });
-  };
 
-  const handleMouseMove = (e) => {
-    if (!isDragging || selectedCard) return;
+    const containerRef = useRef();
 
-    const x = e.pageX - containerRef.current.offsetLeft;
+    const cardRefs = useRef([]);
 
-    const walk = x - startX;
+    useEffect(() => {
+        const {scrollWidth, clientWidth} = containerRef.current;
 
-    containerRef.current.scrollLeft = startScrollLeft - walk;
-  };
+        const halfScroll = (scrollWidth - clientWidth) / 2;
 
-  const selectCard = (card) => {
-    setSelectedCard(selectedCard ? null : card);
+        containerRef.current.scrollLeft = halfScroll;
+    }, [containerRef.current]);
 
-    if (card && !selectedCard) {
-      cardRefs.current[card - 1].scrollIntoView({
-        behavior: "smooth",
+    const handleMouseDown = (e) => {
+        setDragStart({
+            startX: e.pageX - containerRef.current.offsetLeft,
 
-        block: "nearest",
+            startScrollLeft: containerRef.current.scrollLeft,
 
-        inline: "center",
-      });
-    }
-  };
+            isDragging: true,
+        });
+    };
 
-  const handleCardMouseUp = (e, card) => {
-    if (isDragging) {
-      const x = e.pageX - containerRef.current.offsetLeft;
+    const handleMouseMove = (e) => {
+        if (!isDragging || selectedCard) return;
 
-      const walk = x - startX;
+        const x = e.pageX - containerRef.current.offsetLeft;
 
-      if (Math.abs(walk) < 5) selectCard(card);
-    } else selectCard(card);
-  };
+        const walk = x - startX;
 
-  return (
-    <div
-      className="flashcards"
-      onMouseDown={handleMouseDown}
-      onMouseUp={() => setDragStart((prev) => ({ ...prev, isDragging: false }))}
-      onMouseMove={handleMouseMove}
-    >
-      <div className="flashcards__container" ref={containerRef}>
-        {cards.map((card, i) => (
-          <motion.div
-            className="card"
-            key={card}
-            ref={(el) => cardRefs.current.push(el)}
-            onMouseUp={(e) => handleCardMouseUp(e, card)}
-            variants={cardVariants}
-            animate={selectedCard === card ? "selected" : "notSelected"}
-            custom={selectedCard ? selectedCard - card : 0}
-          >
-            <div style={{ backfaceVisibility: "hidden" }}>test</div>
-          </motion.div>
-        ))}
-      </div>
-    </div>
-  );
+        containerRef.current.scrollLeft = startScrollLeft - walk;
+    };
+
+    const selectCard = (card) => {
+        setSelectedCard(selectedCard ? null : card);
+
+        if (card && !selectedCard) {
+            cardRefs.current[card - 1].scrollIntoView({
+                behavior: "smooth",
+
+                block: "nearest",
+
+                inline: "center",
+            });
+        }
+    };
+
+    const handleCardMouseUp = (e, card) => {
+        if (isDragging) {
+            const x = e.pageX - containerRef.current.offsetLeft;
+
+            const walk = x - startX;
+
+            if (Math.abs(walk) < 5) selectCard(card);
+        } else selectCard(card);
+    };
+
+    return (
+        <div
+            className="flashcards"
+            onMouseDown={handleMouseDown}
+            onMouseUp={() => setDragStart((prev) => ({...prev, isDragging: false}))}
+            onMouseMove={handleMouseMove}
+        >
+            <div className="flashcards__container" ref={containerRef}>
+                {cards.map((card, i) => (
+                    <motion.div
+                        className="card"
+                        key={card}
+                        ref={(el) => cardRefs.current.push(el)}
+                        onMouseUp={(e) => handleCardMouseUp(e, card)}
+                        variants={cardVariants}
+                        animate={selectedCard === card ? "selected" : "notSelected"}
+                        custom={selectedCard ? selectedCard - card : 0}
+                    >
+                        <div style={{backfaceVisibility: "hidden"}}>test</div>
+                    </motion.div>
+                ))}
+            </div>
+        </div>
+    );
 };
 
 
-
 function Services() {
-  
-  
-  const headerVariants = {
-    initial: {
-      opacity: 0,
-    },
-    inView: {
-      opacity: 1,
-      transition: {
-        duration: 0.5,
-        delay: 0.25,
-        ease: "easeIn",
-      },
-    },
-  };
 
-  const serviceCard1 = {
-    initial: {
-      opacity: 0,
-    },
-    inView: {
-      opacity: 1,
-      transition: {
-        duration: .4,
-        delay: .4,
-        ease: [.2, .65, .3, .9]
-      }
-    }
-  };
 
-  const serviceCard2 = {
-    initial: {
-      opacity: 0,
-    },
-    inView: {
-      opacity: 1,
-      transition: {
-        duration: .4,
-        delay: .4,
-        ease: [.2, .65, .3, .9]
-      }
+    const headerVariants = {
+        initial: {
+            opacity: 0,
+        },
+        inView: {
+            opacity: 1,
+            transition: {
+                duration: 0.5,
+                delay: 0.25,
+                ease: "easeIn",
+            },
+        },
+    };
 
-    }
-  };
+    const serviceCard1 = {
+        initial: {
+            opacity: 0,
+        },
+        inView: {
+            opacity: 1,
+            transition: {
+                duration: .4,
+                delay: .4,
+                ease: [.2, .65, .3, .9]
+            }
+        }
+    };
 
-  const serviceCard3 = {
-    initial: {
-      opacity: 0,
-    },
-    inView: {
-      opacity: 1,
-      transition: {
-        duration: .4,
-        delay: .4,
-        ease: [.2, .65, .3, .9]
-      }
+    const serviceCard2 = {
+        initial: {
+            opacity: 0,
+        },
+        inView: {
+            opacity: 1,
+            transition: {
+                duration: .4,
+                delay: .4,
+                ease: [.2, .65, .3, .9]
+            }
 
-    }
-  };
+        }
+    };
+
+    const serviceCard3 = {
+        initial: {
+            opacity: 0,
+        },
+        inView: {
+            opacity: 1,
+            transition: {
+                duration: .4,
+                delay: .4,
+                ease: [.2, .65, .3, .9]
+            }
+
+        }
+    };
 
     const serviceCard4 = {
-      initial: {
-        opacity: 0,
-      },
-      inView: {
-        opacity: 1,
-        transition: {
-          duration: .4,
-          delay: .4,
-          ease: [.2, .65, .3, .9]
-        }
+        initial: {
+            opacity: 0,
+        },
+        inView: {
+            opacity: 1,
+            transition: {
+                duration: .4,
+                delay: .4,
+                ease: [.2, .65, .3, .9]
+            }
 
-      }
+        }
     };
 
 
-  const serviceCard5 = {
-    initial: {
-      opacity: 0,
-    },
-    inView: {
-      opacity: 1,
-      transition: {
-        duration: .4,
-        delay: .4,
-        ease: [.2, .65, .3, .9]
-      }
-
-    }
-  };
-
-  const serviceCard6 = {
-    initial: {
-      opacity: 0,
-    },
-    inView: {
-      opacity: 1,
-      transition: {
-        duration: .4,
-        delay: .4,
-        ease: [.2, .65, .3, .9]
-      }
-
-    }
-  };
-
-  return (
-    <div id="servicii" className=" w-[100vw] min-h-[100vh] mb-20">
-      <div className="pt-10 w-[100vw] min-h-[85vh]">
-        <div className="container-fluid">
-          <motion.div
-            variants={headerVariants}
-            initial="initial"
-            whileInView="inView"
-            viewport={{ once: true }}
-            className="title-holder mb-0"
-          >
-            <h2>Servicii</h2>
-            <center>
-              <motion.div
-                transition={{
-                  delay: 0.5,
-                  type: "spring",
-                  stiffness: 400,
-                  damping: 20,
-                  duration: 0.5,
-                }}
-                // stiffness: 400, damping: 10, duration: .4
-                whileInView={{ width: "40%" }}
-                initial={{ width: "0%" }}
-                style={{ width: "0%" }}
-                // viewport={{once: true}}
-              >
-                <Divider
-                  css={{ background: "#000", height: 2 }}
-                  className="mt-6"
-                />
-              </motion.div>
-            </center>
-          </motion.div>
-
-          <div className="flex justify-evenly ml-auto mr-auto w-[60%] h-[40px]">
-            <center>
-              <motion.p
-                className="text-sm md:text-lg text-center"
-                style={{ fontFamily: "Montserrat" }}
-                viewport={{once: true}}
-                initial={{opacity: 0, y: -8}}
-                whileInView={{opacity: 1, y: 0}}
-                transition={{
-                  delay: 1,
-                  duration: 1,
-                  ease: [.2, .65, .3, .9]
-                }}
-              >
-                Condiții excelente
-              </motion.p>
-            </center>
-            <motion.div
-              initial={{height: 0}}
-              whileInView={{height: 40}}
-              transition={{
-                delay: 1.5,
+    const serviceCard5 = {
+        initial: {
+            opacity: 0,
+        },
+        inView: {
+            opacity: 1,
+            transition: {
                 duration: .4,
+                delay: .4,
                 ease: [.2, .65, .3, .9]
-              }}
-            >
-              <ADivider
-                type="vertical"
-                style={{ background: "#ccc" }}
-                className="h-full"
-              ></ADivider>
-            </motion.div>
-            <motion.p
-              className="text-sm md:text-lg text-center"
-              style={{ fontFamily: "Montserrat" }}
-              viewport={{once: true}}
-              initial={{opacity: 0, y: -8}}
-              whileInView={{opacity: 1, y: 0}}
-              transition={{
-                delay: 1.15,
-                duration: 1,
-                ease: [.2, .65, .3, .9]
-              }}
-            >
-              Bazine acoperite
-            </motion.p>
-            <motion.div
-              initial={{height: 0}}
-              whileInView={{height: 40}}
-              transition={{
-                delay: 1.5,
+            }
+
+        }
+    };
+
+    const serviceCard6 = {
+        initial: {
+            opacity: 0,
+        },
+        inView: {
+            opacity: 1,
+            transition: {
                 duration: .4,
+                delay: .4,
                 ease: [.2, .65, .3, .9]
-              }}
-            >
-              <ADivider
-                type="vertical"
-                className="h-full"
-                style={{ background: "#ccc" }}
-              ></ADivider>
-            </motion.div>
-            <motion.p
-              className="text-sm md:text-lg text-center"
-              style={{ fontFamily: "Montserrat" }}
-              viewport={{once: true}}
-              initial={{opacity: 0, y: -8}}
-              whileInView={{opacity: 1, y: 0}}
-              transition={{
-                delay: 1.3,
-                duration: 1,
-                ease: [.2, .65, .3, .9]
-              }}
-            >
-              Metode moderne
-            </motion.p>
-          </div>
-          <div className="contentHolder">
-            <div className="grid gap-y-10 lg:grid-cols-2">
-              <motion.div
-                initial="initial"
-                whileInView="inView"
-                viewport={{ once: true }}
-                variants={serviceCard1}
-              >
-              <Card  
-              className="w-[75%] md:w-[90%]"
-              css={{h: "400px", marginLeft: 'auto', marginRight: 'auto' }}>
-                <Card.Header
-                  css={{
-                    position: "absolute",
-                    bg: '#fff',
-                    zIndex: 1,
-                    borderBottom: "$borderWeights$light solid $gray800",
-                    justifyContent: 'center',
-                  }}
-                >
-                    <h3
-                      // className="uppercase"
-                      style={{
-                        color: "#2a2b2a",
-                        fontSize: "28px",
-                        strokeWidth: "2",
-                        fontFamily: "Montserrat",
-                      }}
+            }
+
+        }
+    };
+
+    return (
+        <div id="servicii" className=" w-[100vw] min-h-[100vh] mb-20">
+            <div className="pt-10 w-[100vw] min-h-[85vh]">
+                <div className="container-fluid">
+                    <motion.div
+                        variants={headerVariants}
+                        initial="initial"
+                        whileInView="inView"
+                        viewport={{once: true}}
+                        className="title-holder mb-0"
                     >
-                      Cursuri Înot Copii
-                    </h3>
-                    <p></p>
-                </Card.Header>
-                <Card.Body css={{ p: 0 }}>
-                  <Card.Image
-                    src={ChildrenSwim}
-                    objectFit="cover"
-                    width="100%"
-                    height="100%"
-                  ></Card.Image>
-                </Card.Body>
-                <Card.Footer
-                  isBlurred
-                  css={{
-                    position: "absolute",
-                    bgBlur: "#0f111466",
-                    borderTop: "$borderWeights$light solid $gray800",
-                    bottom: 0,
-                    zIndex: 1,
-                  }}
-                >
-                  <Row>
-                    <Col>
-                      <p
-                        className="text-md sm:text-lg md:text-2xl"
-                        style={{
-                          color: "#d1d1d1",
-                          textAlign: "left",
-                        }}
-                      >
-                        Ajutăm copiii să înveţe despre frumuseţea înotului
-                      </p>
-                    </Col>
-                    <div className="flex flex-col h-full">
-                      <div className="flex-1" />
-                      <Button color="gradient" auto style={{fontFamily: 'Montserrat', borderColor: '#fff'}}
-                      >
-                        Află mai multe
-                      </Button>
-                      <div className="flex-1" />
+                        <h2>Servicii</h2>
+                        <center>
+                            <motion.div
+                                transition={{
+                                    delay: 0.5,
+                                    type: "spring",
+                                    stiffness: 400,
+                                    damping: 20,
+                                    duration: 0.5,
+                                }}
+                                // stiffness: 400, damping: 10, duration: .4
+                                whileInView={{width: "40%"}}
+                                initial={{width: "0%"}}
+                                style={{width: "0%"}}
+                                // viewport={{once: true}}
+                            >
+                                <Divider
+                                    css={{background: "#000", height: 2}}
+                                    className="mt-6"
+                                />
+                            </motion.div>
+                        </center>
+                    </motion.div>
+
+                    <div className="flex justify-evenly ml-auto mr-auto w-[60%] h-[40px]">
+                        <center>
+                            <motion.p
+                                className="text-sm md:text-lg text-center"
+                                style={{fontFamily: "Montserrat"}}
+                                viewport={{once: true}}
+                                initial={{opacity: 0, y: -8}}
+                                whileInView={{opacity: 1, y: 0}}
+                                transition={{
+                                    delay: 1,
+                                    duration: 1,
+                                    ease: [.2, .65, .3, .9]
+                                }}
+                            >
+                                Condiții excelente
+                            </motion.p>
+                        </center>
+                        <motion.div
+                            initial={{height: 0}}
+                            whileInView={{height: 40}}
+                            transition={{
+                                delay: 1.5,
+                                duration: .4,
+                                ease: [.2, .65, .3, .9]
+                            }}
+                        >
+                            <ADivider
+                                type="vertical"
+                                style={{background: "#ccc"}}
+                                className="h-full"
+                            ></ADivider>
+                        </motion.div>
+                        <motion.p
+                            className="text-sm md:text-lg text-center"
+                            style={{fontFamily: "Montserrat"}}
+                            viewport={{once: true}}
+                            initial={{opacity: 0, y: -8}}
+                            whileInView={{opacity: 1, y: 0}}
+                            transition={{
+                                delay: 1.15,
+                                duration: 1,
+                                ease: [.2, .65, .3, .9]
+                            }}
+                        >
+                            Bazine acoperite
+                        </motion.p>
+                        <motion.div
+                            initial={{height: 0}}
+                            whileInView={{height: 40}}
+                            transition={{
+                                delay: 1.5,
+                                duration: .4,
+                                ease: [.2, .65, .3, .9]
+                            }}
+                        >
+                            <ADivider
+                                type="vertical"
+                                className="h-full"
+                                style={{background: "#ccc"}}
+                            ></ADivider>
+                        </motion.div>
+                        <motion.p
+                            className="text-sm md:text-lg text-center"
+                            style={{fontFamily: "Montserrat"}}
+                            viewport={{once: true}}
+                            initial={{opacity: 0, y: -8}}
+                            whileInView={{opacity: 1, y: 0}}
+                            transition={{
+                                delay: 1.3,
+                                duration: 1,
+                                ease: [.2, .65, .3, .9]
+                            }}
+                        >
+                            Metode moderne
+                        </motion.p>
                     </div>
-                  </Row>
-                </Card.Footer>
-              </Card>
-              </motion.div>
+                    <div className="contentHolder">
+                        <div className="grid gap-y-10 lg:grid-cols-2">
+                            <motion.div
+                                initial="initial"
+                                whileInView="inView"
+                                viewport={{once: true}}
+                                variants={serviceCard1}
+                            >
+                                <Card
+                                    className="w-[75%] md:w-[90%]"
+                                    css={{h: "400px", marginLeft: 'auto', marginRight: 'auto'}}>
+                                    <Card.Header
+                                        css={{
+                                            position: "absolute",
+                                            bg: '#fff',
+                                            zIndex: 1,
+                                            borderBottom: "$borderWeights$light solid $gray800",
+                                            justifyContent: 'center',
+                                        }}
+                                    >
+                                        <h3
+                                            className="text-xl md:text-3xl"
+                                            style={{
+                                                color: "#2a2b2a",
+                                                strokeWidth: "2",
+                                                fontFamily: "Montserrat",
+                                            }}
+                                        >
+                                            Cursuri Înot Copii
+                                        </h3>
+                                        <p></p>
+                                    </Card.Header>
+                                    <Card.Body css={{p: 0}}>
+                                        <Card.Image
+                                            src={ChildrenSwim}
+                                            objectFit="cover"
+                                            width="100%"
+                                            height="100%"
+                                        ></Card.Image>
+                                    </Card.Body>
+                                    <Card.Footer
+                                        isBlurred
+                                        css={{
+                                            position: "absolute",
+                                            bgBlur: "#0f111466",
+                                            borderTop: "$borderWeights$light solid $gray800",
+                                            bottom: 0,
+                                            zIndex: 1,
+                                        }}
+                                    >
+                                        <Row>
+                                            <Col>
+                                                <p
+                                                    className="text-sm sm:text-lg md:text-2xl"
+                                                    style={{
+                                                        color: "#d1d1d1",
+                                                        textAlign: "left",
+                                                    }}
+                                                >
+                                                    Ajutăm copiii să înveţe despre frumuseţea înotului
+                                                </p>
+                                            </Col>
+                                            <div className="flex flex-col h-full">
+                                                <div className="flex-1"/>
+                                                <Button color="gradient" auto
+                                                        style={{fontFamily: 'Montserrat', borderColor: '#fff'}}
+                                                >
+                                                    Află mai multe
+                                                </Button>
+                                                <div className="flex-1"/>
+                                            </div>
+                                        </Row>
+                                    </Card.Footer>
+                                </Card>
+                            </motion.div>
 
-                <motion.div
-                  initial="initial"
-                  whileInView="inView"
-                  viewport={{ once: true }}
-                  variants={serviceCard2}
-                >
-              <Card
-              className="w-[75%] md:w-[90%]"
-              css={{ h: "400px", marginLeft: 'auto', marginRight: 'auto' }}>
-                <Card.Header
-                  css={{
-                    position: "absolute",
-                    bg: '#fff',
-                    zIndex: 1,
-                    borderBottom: "$borderWeights$light solid $gray800",
-                    justifyContent: 'center',
-                  }}
-                >
-                    <h3
-                      // className="uppercase"
-                      style={{
-                        color: "#2a2b2a",
-                        fontSize: "28px",
-                        strokeWidth: "2",
-                        fontFamily: "Montserrat",
-                      }}
-                    >
-                      Cursuri Înot Adulţi
-                    </h3>
-                    <p></p>
-                </Card.Header>
-                <Card.Body css={{ p: 0 }}>
-                  <Card.Image
-                    src={AdultSwim}
-                    objectFit="cover"
-                    width="100%"
-                    height="100%"
-                  ></Card.Image>
-                </Card.Body>
-                <Card.Footer
-                  isBlurred
-                  css={{
-                    position: "absolute",
-                    bgBlur: "#0f111466",
-                    borderTop: "$borderWeights$light solid $gray800",
-                    bottom: 0,
-                    zIndex: 1,
-                  }}
-                >
-                  <Row>
-                    <Col>
-                      <p
-                        className="text-md sm:text-lg md:text-2xl"
-                        style={{
-                          color: "#d1d1d1",
-                          textAlign: "left",
-                        }}
-                      >
-                        Poţi începe studiul înotului de la orice vârstă
-                      </p>
-                    </Col>
-                    <div className="flex flex-col h-full">
-                      <div className="flex-1" />
-                      <Button color="gradient" auto style={{fontFamily: 'Montserrat', borderColor: '#fff'}}
-                      >
-                        Află mai multe
-                      </Button>
-                      <div className="flex-1" />
+                            <motion.div
+                                initial="initial"
+                                whileInView="inView"
+                                viewport={{once: true}}
+                                variants={serviceCard2}
+                            >
+                                {/*TODO(wowvain-dev): make footer have column flex direction
+                                        and give button border
+                                        */}
+                                <Card
+                                    className="w-[75%] md:w-[90%]"
+                                    css={{h: "400px", marginLeft: 'auto', marginRight: 'auto'}}>
+                                    <Card.Header
+                                        css={{
+                                            position: "absolute",
+                                            bg: '#fff',
+                                            zIndex: 1,
+                                            borderBottom: "$borderWeights$light solid $gray800",
+                                            justifyContent: 'center',
+                                        }}
+                                    >
+                                        <h3
+                                            className="text-xl md:text-3xl"
+                                            style={{
+                                                color: "#2a2b2a",
+                                                strokeWidth: "2",
+                                                fontFamily: "Montserrat",
+                                            }}
+                                        >
+                                            Cursuri Înot Adulţi
+                                        </h3>
+                                        <p></p>
+                                    </Card.Header>
+                                    <Card.Body css={{p: 0}}>
+                                        <Card.Image
+                                            src={AdultSwim}
+                                            objectFit="cover"
+                                            width="100%"
+                                            height="100%"
+                                        ></Card.Image>
+                                    </Card.Body>
+                                    <Card.Footer
+                                        isBlurred
+                                        css={{
+                                            position: "absolute",
+                                            bgBlur: "#0f111466",
+                                            borderTop: "$borderWeights$light solid $gray800",
+                                            bottom: 0,
+                                            zIndex: 1,
+                                        }}
+                                    >
+                                        {/*TODO(wowvain-dev): make service cards look better
+                                            on small screens
+                                        */}
+                                        <Row>
+                                            <Col>
+                                                <p
+                                                    className="text-xs sm:text-lg md:text-2xl"
+                                                    style={{
+                                                        color: "#d1d1d1",
+                                                        textAlign: "left",
+                                                    }}
+                                                >
+                                                    Poţi începe studiul înotului de la orice vârstă
+                                                </p>
+                                            </Col>
+                                            <div className="flex flex-col h-full">
+                                                <div className="flex-1"/>
+                                                <Button color="gradient" auto
+                                                        style={{fontFamily: 'Montserrat', borderColor: '#fff'}}
+                                                >
+                                                    Află mai multe
+                                                </Button>
+                                                <div className="flex-1"/>
+                                            </div>
+                                        </Row>
+                                    </Card.Footer>
+                                </Card>
+                            </motion.div>
+
+
+                            <motion.div
+                                initial="initial"
+                                whileInView="inView"
+                                viewport={{once: true}}
+                                variants={serviceCard3}
+                            >
+                                <Card
+                                    className="w-[75%] md:w-[90%]"
+                                    css={{h: "400px", marginLeft: 'auto', marginRight: 'auto'}}>
+                                    <Card.Header
+                                        css={{
+                                            position: "absolute",
+                                            bg: '#fff',
+                                            zIndex: 1,
+                                            borderBottom: "$borderWeights$light solid $gray800",
+                                            justifyContent: 'center',
+                                        }}
+                                    >
+                                        <h3
+                                            // className="uppercase"
+                                            className="text-xl md:text-3xl"
+                                            style={{
+                                                color: "#2a2b2a",
+                                                strokeWidth: "2",
+                                                fontFamily: "Montserrat",
+                                            }}
+                                        >
+                                            Cursuri Înot Bebeluşi
+                                        </h3>
+                                        <p></p>
+                                    </Card.Header>
+                                    <Card.Body css={{p: 0}}>
+                                        <Card.Image
+                                            src={BabySwim}
+                                            objectFit="cover"
+                                            width="100%"
+                                            height="100%"
+                                        ></Card.Image>
+                                    </Card.Body>
+                                    <Card.Footer
+                                        isBlurred
+                                        css={{
+                                            position: "absolute",
+                                            bgBlur: "#0f111466",
+                                            borderTop: "$borderWeights$light solid $gray800",
+                                            bottom: 0,
+                                            zIndex: 1,
+                                        }}
+                                    >
+                                        <Row>
+                                            <Col>
+                                                <p
+                                                    className="text-md sm:text-lg md:text-2xl"
+                                                    style={{
+                                                        color: "#d1d1d1",
+                                                        textAlign: "left",
+                                                    }}
+                                                >
+                                                    Bebeluşii pot începe să înveţe a înoata încă din primele luni
+                                                </p>
+                                            </Col>
+                                            <div className="flex flex-col h-full">
+                                                <div className="flex-1"/>
+                                                <Button color="gradient" auto
+                                                        style={{fontFamily: 'Montserrat', borderColor: '#fff'}}
+                                                >
+                                                    Află mai multe
+                                                </Button>
+                                                <div className="flex-1"/>
+                                            </div>
+                                        </Row>
+                                    </Card.Footer>
+                                </Card>
+                            </motion.div>
+
+                            <motion.div
+                                initial="initial"
+                                whileInView="inView"
+                                viewport={{once: true}}
+                                variants={serviceCard4}
+                            >
+                                <Card
+                                    className="w-[75%] md:w-[90%]"
+                                    css={{h: "400px", marginLeft: 'auto', marginRight: 'auto'}}>
+                                    <Card.Header
+                                        css={{
+                                            position: "absolute",
+                                            bg: '#fff',
+                                            zIndex: 1,
+                                            borderBottom: "$borderWeights$light solid $gray800",
+                                            justifyContent: 'center',
+                                        }}
+                                    >
+                                        <h3
+                                            // className="uppercase"
+                                            className="text-xl md:text-3xl"
+                                            style={{
+                                                color: "#2a2b2a",
+                                                strokeWidth: "2",
+                                                fontFamily: "Montserrat",
+                                            }}
+                                        >
+                                            Gimnastică Acvatică
+                                        </h3>
+                                        <p></p>
+                                    </Card.Header>
+                                    <Card.Body css={{p: 0}}>
+                                        <Card.Image
+                                            src={AquaGym}
+                                            objectFit="cover"
+                                            width="100%"
+                                            height="100%"
+                                        ></Card.Image>
+                                    </Card.Body>
+                                    <Card.Footer
+                                        isBlurred
+                                        css={{
+                                            position: "absolute",
+                                            bgBlur: "#0f111466",
+                                            borderTop: "$borderWeights$light solid $gray800",
+                                            bottom: 0,
+                                            zIndex: 1,
+                                        }}
+                                    >
+                                        <Row>
+                                            <Col>
+                                                <p
+                                                    className="text-md sm:text-lg md:text-2xl"
+                                                    style={{
+                                                        color: "#d1d1d1",
+                                                        textAlign: "left",
+                                                    }}
+                                                >
+                                                    Tonifiază-ţi musculatura folosindu-te de rezistenţa apei
+                                                </p>
+                                            </Col>
+                                            <div className="flex flex-col h-full">
+                                                <div className="flex-1"/>
+                                                <Button color="gradient" auto
+                                                        style={{fontFamily: 'Montserrat', borderColor: '#fff'}}
+                                                >
+                                                    Află mai multe
+                                                </Button>
+                                                <div className="flex-1"/>
+                                            </div>
+                                        </Row>
+                                    </Card.Footer>
+                                </Card>
+                            </motion.div>
+
+                            <motion.div
+                                initial="initial"
+                                whileInView="inView"
+                                viewport={{once: true}}
+                                variants={serviceCard5}
+                            >
+                                <Card
+                                    className="w-[75%] md:w-[90%]"
+                                    css={{h: "400px", marginLeft: 'auto', marginRight: 'auto'}}>
+                                    <Card.Header
+                                        css={{
+                                            position: "absolute",
+                                            bg: '#fff',
+                                            zIndex: 1,
+                                            borderBottom: "$borderWeights$light solid $gray800",
+                                            justifyContent: 'center',
+                                        }}
+                                    >
+                                        <h3
+                                            // className="uppercase"
+                                            className="text-xl md:text-3xl"
+                                            style={{
+                                                color: "#2a2b2a",
+                                                strokeWidth: "2",
+                                                fontFamily: "Montserrat",
+                                            }}
+                                        >
+                                            Recuperare Medicală
+                                        </h3>
+                                        <p></p>
+                                    </Card.Header>
+                                    <Card.Body css={{p: 0}}>
+                                        <Card.Image
+                                            src={AquaRecovery}
+                                            objectFit="cover"
+                                            width="100%"
+                                            height="100%"
+                                        ></Card.Image>
+                                    </Card.Body>
+                                    <Card.Footer
+                                        isBlurred
+                                        css={{
+                                            position: "absolute",
+                                            bgBlur: "#0f111466",
+                                            borderTop: "$borderWeights$light solid $gray800",
+                                            bottom: 0,
+                                            zIndex: 1,
+                                        }}
+                                    >
+                                        <Row>
+                                            <Col>
+                                                <p
+                                                    className="text-md sm:text-lg md:text-2xl"
+                                                    style={{
+                                                        color: "#d1d1d1",
+                                                        textAlign: "left",
+                                                    }}
+                                                >
+                                                    Ne folosim de tehnici de hidrokinetoterapie pentru a vă îmbunătăţi
+                                                    recuperarea medicală
+                                                </p>
+                                            </Col>
+                                            <div className="flex flex-col h-full">
+                                                <div className="flex-1"/>
+                                                <Button color="gradient" auto
+                                                        style={{fontFamily: 'Montserrat', borderColor: '#fff'}}
+                                                >
+                                                    Află mai multe
+                                                </Button>
+                                                <div className="flex-1"/>
+                                            </div>
+                                        </Row>
+                                    </Card.Footer>
+                                </Card>
+                            </motion.div>
+
+                            <motion.div
+                                initial="initial"
+                                whileInView="inView"
+                                viewport={{once: true}}
+                                variants={serviceCard6}
+                            >
+                                <Card
+                                    className="w-[75%] md:w-[90%]"
+                                    css={{h: "400px", marginLeft: 'auto', marginRight: 'auto'}}>
+                                    <Card.Header
+                                        css={{
+                                            position: "absolute",
+                                            bg: '#fff',
+                                            zIndex: 1,
+                                            borderBottom: "$borderWeights$light solid $gray800",
+                                            justifyContent: 'center',
+                                        }}
+                                    >
+                                        <h3
+                                            // className="uppercase"
+                                            className="text-xl md:text-3xl"
+                                            style={{
+                                                color: "#2a2b2a",
+                                                strokeWidth: "2",
+                                                fontFamily: "Montserrat",
+                                            }}
+                                        >
+                                            Maeştrii Înotului
+                                        </h3>
+                                        <p></p>
+                                    </Card.Header>
+                                    <Card.Body css={{p: 0}}>
+                                        <Card.Image
+                                            src={SwimmingMasters}
+                                            objectFit="cover"
+                                            width="100%"
+                                            height="100%"
+                                        ></Card.Image>
+                                    </Card.Body>
+                                    <Card.Footer
+                                        isBlurred
+                                        css={{
+                                            position: "absolute",
+                                            bgBlur: "#0f111466",
+                                            borderTop: "$borderWeights$light solid $gray800",
+                                            bottom: 0,
+                                            zIndex: 1,
+                                        }}
+                                    >
+                                        <Row>
+                                            <Col>
+                                                <p
+                                                    className="text-md sm:text-lg md:text-2xl"
+                                                    style={{
+                                                        color: "#d1d1d1",
+                                                        textAlign: "left",
+                                                    }}
+                                                >
+                                                    Ajutăm pasionaţii să atingă nivelul de performanță la care visează
+                                                </p>
+                                            </Col>
+                                            <div className="flex flex-col h-full">
+                                                <div className="flex-1"/>
+                                                <Button color="gradient" auto
+                                                        style={{fontFamily: 'Montserrat', borderColor: '#fff'}}
+                                                >
+                                                    Afla mai multe
+                                                </Button>
+                                                <div className="flex-1"/>
+                                            </div>
+                                        </Row>
+                                    </Card.Footer>
+                                </Card>
+                            </motion.div>
+
+                        </div>
                     </div>
-                  </Row>
-                </Card.Footer>
-              </Card>
-              </motion.div>
-
-
-              <motion.div
-                initial="initial"
-                whileInView="inView"
-                viewport={{ once: true }}
-                variants={serviceCard3}
-              >
-              <Card
-              className="w-[75%] md:w-[90%]"
-              css={{ h: "400px", marginLeft: 'auto', marginRight: 'auto' }}>
-                <Card.Header
-                  css={{
-                    position: "absolute",
-                    bg: '#fff',
-                    zIndex: 1,
-                    borderBottom: "$borderWeights$light solid $gray800",
-                    justifyContent: 'center',
-                  }}
-                >
-                    <h3
-                      // className="uppercase"
-                      style={{
-                        color: "#2a2b2a",
-                        fontSize: "28px",
-                        strokeWidth: "2",
-                        fontFamily: "Montserrat",
-                      }}
-                    >
-                      Cursuri Înot Bebeluşi
-                    </h3>
-                    <p></p>
-                </Card.Header>
-                <Card.Body css={{ p: 0 }}>
-                  <Card.Image
-                    src={BabySwim}
-                    objectFit="cover"
-                    width="100%"
-                    height="100%"
-                  ></Card.Image>
-                </Card.Body>
-                <Card.Footer
-                  isBlurred
-                  css={{
-                    position: "absolute",
-                    bgBlur: "#0f111466",
-                    borderTop: "$borderWeights$light solid $gray800",
-                    bottom: 0,
-                    zIndex: 1,
-                  }}
-                >
-                  <Row>
-                    <Col>
-                      <p
-                        className="text-md sm:text-lg md:text-2xl"
-                        style={{
-                          color: "#d1d1d1",
-                          textAlign: "left",
-                        }}
-                      >
-                        Bebeluşii pot începe să înveţe a înoata încă din primele luni
-                      </p>
-                    </Col>
-                    <div className="flex flex-col h-full">
-                      <div className="flex-1" />
-                      <Button color="gradient" auto style={{fontFamily: 'Montserrat', borderColor: '#fff'}}
-                      >
-                        Află mai multe
-                      </Button>
-                      <div className="flex-1" />
-                    </div>
-                  </Row>
-                </Card.Footer>
-              </Card>
-              </motion.div>
-
-              <motion.div
-                initial="initial"
-                whileInView="inView"
-                viewport={{ once: true }}
-                variants={serviceCard4}
-              >
-              <Card
-              className="w-[75%] md:w-[90%]"
-              css={{ h: "400px", marginLeft: 'auto', marginRight: 'auto' }}>
-                <Card.Header
-                  css={{
-                    position: "absolute",
-                    bg: '#fff',
-                    zIndex: 1,
-                    borderBottom: "$borderWeights$light solid $gray800",
-                    justifyContent: 'center',
-                  }}
-                >
-                    <h3
-                      // className="uppercase"
-                      style={{
-                        color: "#2a2b2a",
-                        fontSize: "28px",
-                        strokeWidth: "2",
-                        fontFamily: "Montserrat",
-                      }}
-                    >
-                      Gimnastică Acvatică
-                    </h3>
-                    <p></p>
-                </Card.Header>
-                <Card.Body css={{ p: 0 }}>
-                  <Card.Image
-                    src={AquaGym}
-                    objectFit="cover"
-                    width="100%"
-                    height="100%"
-                  ></Card.Image>
-                </Card.Body>
-                <Card.Footer
-                  isBlurred
-                  css={{
-                    position: "absolute",
-                    bgBlur: "#0f111466",
-                    borderTop: "$borderWeights$light solid $gray800",
-                    bottom: 0,
-                    zIndex: 1,
-                  }}
-                >
-                  <Row>
-                    <Col>
-                      <p
-                        className="text-md sm:text-lg md:text-2xl"
-                        style={{
-                          color: "#d1d1d1",
-                          textAlign: "left",
-                        }}
-                      >
-                        Tonifiază-ţi musculatura folosindu-te de rezistenţa apei
-                      </p>
-                    </Col>
-                    <div className="flex flex-col h-full">
-                      <div className="flex-1" />
-                      <Button color="gradient" auto style={{fontFamily: 'Montserrat', borderColor: '#fff'}}
-                      >
-                        Află mai multe
-                      </Button>
-                      <div className="flex-1" />
-                    </div>
-                  </Row>
-                </Card.Footer>
-              </Card>
-              </motion.div>
-
-              <motion.div
-                initial="initial"
-                whileInView="inView"
-                viewport={{ once: true }}
-                variants={serviceCard5}
-              >
-              <Card
-              className="w-[75%] md:w-[90%]"
-              css={{ h: "400px", marginLeft: 'auto', marginRight: 'auto' }}>
-                <Card.Header
-                  css={{
-                    position: "absolute",
-                    bg: '#fff',
-                    zIndex: 1,
-                    borderBottom: "$borderWeights$light solid $gray800",
-                    justifyContent: 'center',
-                  }}
-                >
-                    <h3
-                      // className="uppercase"
-                      style={{
-                        color: "#2a2b2a",
-                        fontSize: "28px",
-                        strokeWidth: "2",
-                        fontFamily: "Montserrat",
-                      }}
-                    >
-                      Recuperare Medicală
-                    </h3>
-                    <p></p>
-                </Card.Header>
-                <Card.Body css={{ p: 0 }}>
-                  <Card.Image
-                    src={AquaRecovery}
-                    objectFit="cover"
-                    width="100%"
-                    height="100%"
-                  ></Card.Image>
-                </Card.Body>
-                <Card.Footer
-                  isBlurred
-                  css={{
-                    position: "absolute",
-                    bgBlur: "#0f111466",
-                    borderTop: "$borderWeights$light solid $gray800",
-                    bottom: 0,
-                    zIndex: 1,
-                  }}
-                >
-                  <Row>
-                    <Col>
-                      <p
-                        className="text-md sm:text-lg md:text-2xl"
-                        style={{
-                          color: "#d1d1d1",
-                          textAlign: "left",
-                        }}
-                      >
-                        Ne folosim de tehnici de hidrokinetoterapie pentru a vă îmbunătăţi recuperarea medicală
-                      </p>
-                    </Col>
-                    <div className="flex flex-col h-full">
-                      <div className="flex-1" />
-                      <Button color="gradient" auto style={{fontFamily: 'Montserrat', borderColor: '#fff'}}
-                      >
-                        Află mai multe
-                      </Button>
-                      <div className="flex-1" />
-                    </div>
-                  </Row>
-                </Card.Footer>
-              </Card>
-              </motion.div>
-
-              <motion.div
-                initial="initial"
-                whileInView="inView"
-                viewport={{ once: true }}
-                variants={serviceCard6}
-              >
-              <Card
-              className="w-[75%] md:w-[90%]"
-              css={{h: "400px", marginLeft: 'auto', marginRight: 'auto' }}>
-                <Card.Header
-                  css={{
-                    position: "absolute",
-                    bg: '#fff',
-                    zIndex: 1,
-                    borderBottom: "$borderWeights$light solid $gray800",
-                    justifyContent: 'center',
-                  }}
-                >
-                    <h3
-                      // className="uppercase"
-                      style={{
-                        color: "#2a2b2a",
-                        fontSize: "28px",
-                        strokeWidth: "2",
-                        fontFamily: "Montserrat",
-                      }}
-                    >
-                      Maeştrii Înotului
-                    </h3>
-                    <p></p>
-                </Card.Header>
-                <Card.Body css={{ p: 0 }}>
-                  <Card.Image
-                    src={SwimmingMasters}
-                    objectFit="cover"
-                    width="100%"
-                    height="100%"
-                  ></Card.Image>
-                </Card.Body>
-                <Card.Footer
-                  isBlurred
-                  css={{
-                    position: "absolute",
-                    bgBlur: "#0f111466",
-                    borderTop: "$borderWeights$light solid $gray800",
-                    bottom: 0,
-                    zIndex: 1,
-                  }}
-                >
-                  <Row>
-                    <Col>
-                      <p
-                        className="text-md sm:text-lg md:text-2xl"
-                        style={{
-                          color: "#d1d1d1",
-                          textAlign: "left",
-                        }}
-                      >
-                        Ajutăm pasionaţii să atingă nivelul de performanță la care visează
-                      </p>
-                    </Col>
-                    <div className="flex flex-col h-full">
-                      <div className="flex-1" />
-                      <Button color="gradient" auto style={{fontFamily: 'Montserrat', borderColor: '#fff'}}
-                      >
-                        Afla mai multe
-                      </Button>
-                      <div className="flex-1" />
-                    </div>
-                  </Row>
-                </Card.Footer>
-              </Card>
-              </motion.div>
-
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 }
 
 export default Services;
