@@ -54,7 +54,7 @@ function Layout() {
       }
       window.addEventListener('resize', handleResize);
 
-      return _ => {
+      return (_) => {
         window.removeEventListener('resize', handleResize)
      }}
   );

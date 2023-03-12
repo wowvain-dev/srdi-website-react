@@ -1,13 +1,7 @@
-import { MutableRefObject, createContext, useState } from 'react'
-import reactLogo from './assets/react.svg'
+import { MutableRefObject, useState } from 'react'
 import Layout from "./pages/layout";
-import About from "./pages/about";
 import Home from "./pages/home";
-import Contact from "./pages/contact";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import Services from "./pages/services";
-import Prices from "./pages/prices";
-import Gallery from "./pages/gallery";
 import { ConfigProvider } from 'antd';
 import {PathContext} from './helpers/context'
 import { NextUIProvider, createTheme } from '@nextui-org/react';
@@ -38,7 +32,6 @@ class PathManager {
     return location.href.slice(location.href.search('#')); 
   }
 }
-
 
 export default function App() {
   const [path, setPath] = useState<string>('#');
