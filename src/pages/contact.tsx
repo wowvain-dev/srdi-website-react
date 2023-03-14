@@ -279,9 +279,10 @@ function Contact() {
 					<div className="contact-area grid
 					grid-cols-1 grid-rows-2 gap-y-10
 					lg:grid-cols-2 lg:grid-rows-1 lg:gap-x-10
-					h-[150vh] w-[90%]
+					h-[1500px] w-[90%]
+					lg:h-[700px]
 					ml-auto mr-auto
-					lg:h-[600px] lg:w-[75%]">
+					lg:w-[75%]">
 						<div
 							className="contact-card"
 						>

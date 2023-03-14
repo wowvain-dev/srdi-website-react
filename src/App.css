@@ -2,6 +2,7 @@
 general 
 -------
 */
+
 body {
     font-size: 16px;
     line-height: 1.6;
@@ -393,10 +394,11 @@ body {
   ------
   */
   .ant-layout-footer {
-    background: #111 !important;
+    background: #003f5b !important;
     color: #fff !important;
     padding: 60px 0 !important;
     text-align: center;
+    font-family: Montserrat, sans-serif;
   }
   
   .footer .logo {
@@ -433,7 +435,8 @@ body {
   }
   
   .footer .socials a:hover {
-    color: #003f5c;
+    /* color: #003f5c; */
+    scale: 1.1;
   }
   
   .footer .goTop:hover {

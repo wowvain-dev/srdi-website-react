@@ -4,15 +4,12 @@ import {Menu, Button, Drawer, Typography, Anchor, Layout as AntdLayout} from "an
 import React, { MutableRefObject, useEffect, useRef, useState } from "react";
 import { usePathContext } from "../helpers/context";
 import AppHeader from "../components/common/header";
+import AppFooter from "../components/common/footer";
 import '../App.css';
 
 const { Text } = Typography;
 const { Link } = Anchor;
 const { Header, Content, Footer } = AntdLayout;
-
-function AppFooter() {
-  return null;
-}
 
 function Layout() {
   const location = useLocation();
